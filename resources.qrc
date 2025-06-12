@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/packages">
+    <file>resources/postgresql.tar.gz</file>
+    <file>resources/wine.tar.gz</file>
+    <file>resources/slapd.tar.gz</file>
+  </qresource>
+</RCC>
