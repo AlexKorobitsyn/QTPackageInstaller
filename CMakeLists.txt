@@ -45,8 +45,9 @@ else()
             interfaces/IPage.h
             pages/namepage.h pages/namepage.cpp
             pages/installpage.h pages/installpage.cpp
-            installer/localpackageinstaller.h installer/localpackageinstaller.cpp
+            installer/localpackageinstaller.h
             installer/IPackageInstaller.h
+            installer/localpackageinstaller.cpp
         )
 
         qt5_add_resources(COMPILED_RESOURCES ${RESOURCE_FILES})
