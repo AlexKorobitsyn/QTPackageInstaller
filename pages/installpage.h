@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QVBoxLayout>
-#include "..\interfaces\IPage.h"
-#include "..\installer\IPackageInstaller.h"
+#include "../interfaces/IPage.h"
+#include "../installer/IPackageInstaller.h"
 
 class InstallPage : public QWidget, public IPage {
     Q_OBJECT

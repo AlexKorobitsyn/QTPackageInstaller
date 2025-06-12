@@ -1,6 +1,6 @@
 #include "mainwindow.h"
-#include "pages\NamePage.h"
-#include "pages\InstallPage.h"
+#include "pages/NamePage.h"
+#include "pages/InstallPage.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>

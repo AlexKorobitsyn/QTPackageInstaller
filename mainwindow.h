@@ -5,7 +5,7 @@
 #include <QStackedWidget>
 #include <QPushButton>
 #include <QVector>
-#include "interfaces\IPage.h"
+#include "interfaces/IPage.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
