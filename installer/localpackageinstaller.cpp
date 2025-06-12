@@ -3,40 +3,60 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QMessageBox>
 
 LocalPackageInstaller::LocalPackageInstaller(QObject *parent)
     : QObject(parent) {}
 
 bool LocalPackageInstaller::install(const QString &packageId) {
-    QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/installer_temp";
+    QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/installer_temp_" + packageId;
     QDir().mkpath(tempDir);
 
     QString resourcePath = ":/packages/" + packageId + ".tar.gz";
     QString localArchive = tempDir + "/" + packageId + ".tar.gz";
 
+    qDebug() << "📦 Resource:" << resourcePath;
+    qDebug() << "📦 Copying to:" << localArchive;
+
     QFile file(resourcePath);
-    if (!file.exists() || !file.copy(localArchive)) {
+    if (!file.exists()) {
+        QMessageBox::critical(nullptr, "Ошибка", "Файл ресурса не найден: " + resourcePath);
         return false;
     }
 
-    QProcess proc;
-    proc.setWorkingDirectory(tempDir);
-    proc.start("tar", QStringList() << "-xzf" << localArchive);
-    proc.waitForFinished();
+    if (!file.copy(localArchive)) {
+        QMessageBox::critical(nullptr, "Ошибка", "Не удалось скопировать в temp: " + localArchive);
+        return false;
+    }
+
+    QProcess unpack;
+    unpack.setWorkingDirectory(tempDir);
+    unpack.start("tar", QStringList() << "-xzf" << localArchive);
+    unpack.waitForFinished();
+    qDebug() << "📂 tar stdout:" << unpack.readAllStandardOutput();
+    qDebug() << "📂 tar stderr:" << unpack.readAllStandardError();
 
     QString installScript = tempDir + "/" + packageId + "/install.sh";
     if (!QFile::exists(installScript)) {
+        QMessageBox::critical(nullptr, "Ошибка", "Файл install.sh не найден: " + installScript);
         return false;
     }
 
-    proc.start("bash", QStringList() << installScript);
-    proc.waitForFinished();
-    qDebug() << "Trying to extract:" << resourcePath;
-    qDebug() << "Copy to:" << localArchive;
-    qDebug() << "Unpacking to:" << tempDir;
-    qDebug() << "Running: tar -xzf" << localArchive;
+    QProcess installer;
+    installer.setWorkingDirectory(tempDir + "/" + packageId);
+    installer.start("bash", QStringList() << "install.sh");
+    installer.waitForFinished();
 
-    qDebug() << "Running: bash" << installScript;
+    QString out = installer.readAllStandardOutput();
+    QString err = installer.readAllStandardError();
 
-    return proc.exitCode() == 0;
+    qDebug() << "🛠️ install stdout:" << out;
+    qDebug() << "🛠️ install stderr:" << err;
+
+    if (installer.exitCode() != 0) {
+        QMessageBox::critical(nullptr, "Установка не удалась", err.isEmpty() ? out : err);
+        return false;
+    }
+
+    return true;
 }
