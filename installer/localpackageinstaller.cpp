@@ -1,4 +1,4 @@
-#include "LocalPackageInstaller.h"
+#include "localpackageinstaller.h"
 #include <QProcess>
 #include <QDir>
 #include <QStandardPaths>

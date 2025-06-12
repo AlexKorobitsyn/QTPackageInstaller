@@ -1,5 +1,5 @@
-#include "InstallPage.h"
-#include "../installer/LocalPackageInstaller.h"
+#include "installpage.h"
+#include "../installer/localpackageinstaller.h"
 #include <QMessageBox>
 
 InstallPage::InstallPage(QWidget *parent) : QWidget(parent) {
