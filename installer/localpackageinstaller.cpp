@@ -15,8 +15,8 @@ bool LocalPackageInstaller::install(const QString &packageId) {
     QString resourcePath = "../resources/" + packageId + ".tar.gz";
     QString localArchive = tempDir + "/" + packageId + ".tar.gz";
 
-    qDebug() << "📦 Resource:" << resourcePath;
-    qDebug() << "📦 Copying to:" << localArchive;
+    qDebug() << "Resource:" << resourcePath;
+    qDebug() << "Copying to:" << localArchive;
 
     QFile file(resourcePath);
     if (!file.exists()) {
@@ -35,8 +35,8 @@ bool LocalPackageInstaller::install(const QString &packageId) {
     unpack.setWorkingDirectory(tempDir);
     unpack.start("tar", QStringList() << "-xzf" << localArchive);
     unpack.waitForFinished();
-    qDebug() << "📂 tar stdout:" << unpack.readAllStandardOutput();
-    qDebug() << "📂 tar stderr:" << unpack.readAllStandardError();
+    qDebug() << "tar stout:" << unpack.readAllStandardOutput();
+    qDebug() << "tar stderr:" << unpack.readAllStandardError();
 
     QString installScript = tempDir + "/" + packageId + "/install.sh";
     if (!QFile::exists(installScript)) {
@@ -52,8 +52,8 @@ bool LocalPackageInstaller::install(const QString &packageId) {
     QString out = installer.readAllStandardOutput();
     QString err = installer.readAllStandardError();
 
-    qDebug() << "🛠️ install stdout:" << out;
-    qDebug() << "🛠️ install stderr:" << err;
+    qDebug() << "install stdout:" << out;
+    qDebug() << "install sderr:" << err;
 
     if (installer.exitCode() != 0) {
         QMessageBox::critical(nullptr, "Установка не удалась", err.isEmpty() ? out : err);

@@ -1,6 +1,7 @@
 #include "installpage.h"
 #include "../installer/localpackageinstaller.h"
 #include <QMessageBox>
+#include <QErrorMessage>
 
 InstallPage::InstallPage(QWidget *parent) : QWidget(parent) {
     auto *layout = new QVBoxLayout(this);

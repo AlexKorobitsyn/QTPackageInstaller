@@ -56,7 +56,6 @@ void MainWindow::onNextClicked() {
         pageStack->setCurrentIndex(currentPageIndex);
         updateNavigation();
     } else {
-        // Последняя страница может запустить установку — вызывать InstallPage::install()
         auto *installPage = dynamic_cast<InstallPage *>(pages.last());
         if (installPage) {
             installPage->startInstallation();
