@@ -12,7 +12,7 @@ bool LocalPackageInstaller::install(const QString &packageId) {
     QString tempDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/installer_temp_" + packageId;
     QDir().mkpath(tempDir);
 
-    QString resourcePath = ":/packages/" + packageId + ".tar.gz";
+    QString resourcePath = "../resources/" + packageId + ".tar.gz";
     QString localArchive = tempDir + "/" + packageId + ".tar.gz";
 
     qDebug() << "📦 Resource:" << resourcePath;
