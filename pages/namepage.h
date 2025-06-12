@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QVBoxLayout>
-#include "../interfaces/IPage.h"
+#include "..\interfaces\IPage.h"
 
 class NamePage : public QWidget, public IPage {
     Q_OBJECT
