@@ -23,7 +23,9 @@ bool LocalPackageInstaller::install(const QString &packageId) {
         QMessageBox::critical(nullptr, "Ошибка", "Файл ресурса не найден: " + resourcePath);
         return false;
     }
-
+    if (QFile::exists(localArchive)) {
+        QFile::remove(localArchive);
+    }
     if (!file.copy(localArchive)) {
         QMessageBox::critical(nullptr, "Ошибка", "Не удалось скопировать в temp: " + localArchive);
         return false;
